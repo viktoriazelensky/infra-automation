@@ -1,21 +1,22 @@
+from typing import ClassVar
 from pydantic import BaseModel, Field, StrictInt, field_validator
 
 
 class MachineConfig(BaseModel):
     # Allowed operating systems supported by this project.
     # Restricting the list helps prevent arbitrary or invalid user input.
-    ALLOWED_OS = [
-        "Ubuntu",
-        "Debian",
-        "CentOS",
-        "Rocky Linux",
-        "AlmaLinux",
-        "Fedora",
-        "Alpine",
-        "Arch Linux",
-        "Oracle Linux",
-        "Windows Server",
-    ]
+    ALLOWED_OS: ClassVar[list[str]] = [
+    "Ubuntu",
+    "Windows",
+    "Linux",
+    "Debian",
+    "CentOS",
+    "Fedora",
+    "Rocky Linux",
+    "AlmaLinux",
+    "Arch Linux",
+    "Alpine",
+     ]
 
     name: str
     os: str
@@ -29,7 +30,8 @@ class MachineConfig(BaseModel):
     }
 
     # Validate machine name:
-    # removes leading/trailing spaces and ensures the name is not empty
+    # removes leading/trailing spaces, checks that the name is not empty,
+    # and ensures the machine name is not longer than 63 characters
     @field_validator("name")
     @classmethod
     def validate_name(cls, value: str) -> str:
@@ -37,6 +39,9 @@ class MachineConfig(BaseModel):
 
         if not cleaned_value:
             raise ValueError("Machine name cannot be empty")
+
+        if len(cleaned_value) > 63:
+            raise ValueError("Machine name cannot be longer than 63 characters")
 
         return cleaned_value
 
