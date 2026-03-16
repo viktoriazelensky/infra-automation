@@ -31,7 +31,7 @@ def get_user_input():
         if name.lower() == "done":
             break
 
-        os_type = input("Please enter operating system(Ubuntu/CentOS): ")
+        os_type = input("Please enter operating system (Ubuntu/CentOS): ")
 
         while True:
             try:
@@ -63,7 +63,9 @@ def get_user_input():
             )
 
             machine.log_creation()
+            machine.provision()
             machines.append(machine.to_dict())
+
             print(f"Machine '{machine.name}' added successfully.\n")
             print()
             logger.info(f"Machine '{machine.name}' added successfully")

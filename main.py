@@ -19,8 +19,8 @@ def main():
     for machine in machines:
         print(machine)
 
+    logger.info("Provisioning process finished")
+
 
 if __name__ == "__main__":
     main()
-
-    logger.info("Provisioning process finished")
