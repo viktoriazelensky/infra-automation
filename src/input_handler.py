@@ -3,12 +3,21 @@ import os
 
 from pydantic import ValidationError
 from src.models import MachineConfig
+from src.machine import Machine
 
 
-# This function collects machine configurations from the user.
-# It asks for machine name, operating system, CPU cores and RAM.
-# Valid machines are added to the list until the user enters 'done'.
 def get_user_input():
+    """
+    Collect machine configuration parameters from the user.
+
+    The function asks the user to enter machine name, operating system,
+    CPU cores and RAM. The input is validated using the MachineConfig
+    model. Valid machines are converted into Machine objects and stored
+    in a list.
+
+    The input process continues until the user types 'done'.
+    """
+
     machines = []
 
     print("\n=== Machine Configuration Input ===")
@@ -20,7 +29,7 @@ def get_user_input():
         if name.lower() == "done":
             break
 
-        os_type = input("Please enter operating system: ")
+        os_type = input("Please enter operating system(Ubuntu/CentOS): ")
 
         while True:
             try:
@@ -37,14 +46,22 @@ def get_user_input():
                 print("Invalid RAM value. Please enter a number in MB, for example 4096.")
 
         try:
-            machine = MachineConfig(
+            machine_config = MachineConfig(
                 name=name,
                 os=os_type,
                 cpu=cpu,
                 ram=ram
             )
 
-            machines.append(machine.model_dump())
+            machine = Machine(
+                machine_config.name,
+                machine_config.os,
+                machine_config.cpu,
+                machine_config.ram
+            )
+
+            machine.log_creation()
+            machines.append(machine.to_dict())
             print(f"Machine '{machine.name}' added successfully.\n")
 
         except ValidationError as e:
@@ -55,8 +72,14 @@ def get_user_input():
     return machines
 
 
-# This function saves the collected machine configurations to JSON.
 def save_to_json(machines):
+    """
+    Save the collected machine configurations to a JSON file.
+
+    The function creates the 'configs' directory if it does not exist
+    and writes the machine configurations to configs/instances.json.
+    """
+
     os.makedirs("configs", exist_ok=True)
 
     with open("configs/instances.json", "w", encoding="utf-8") as f:

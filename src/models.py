@@ -7,15 +7,7 @@ class MachineConfig(BaseModel):
     # Restricting the list helps prevent arbitrary or invalid user input.
     ALLOWED_OS: ClassVar[list[str]] = [
     "Ubuntu",
-    "Windows",
-    "Linux",
-    "Debian",
     "CentOS",
-    "Fedora",
-    "Rocky Linux",
-    "AlmaLinux",
-    "Arch Linux",
-    "Alpine",
      ]
 
     name: str
