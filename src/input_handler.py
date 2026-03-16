@@ -4,6 +4,7 @@ import os
 from pydantic import ValidationError
 from src.models import MachineConfig
 from src.machine import Machine
+from src.logger import logger
 
 
 def get_user_input():
@@ -24,6 +25,7 @@ def get_user_input():
     print("Type 'done' as machine name when you finish adding machines.\n")
 
     while True:
+        print()
         name = input("Please enter machine name (or 'done' to finish): ").strip()
 
         if name.lower() == "done":
@@ -63,11 +65,19 @@ def get_user_input():
             machine.log_creation()
             machines.append(machine.to_dict())
             print(f"Machine '{machine.name}' added successfully.\n")
+            print()
+            logger.info(f"Machine '{machine.name}' added successfully")
 
         except ValidationError as e:
             print("Invalid input. Please check your values and try again.")
+
+            if "Unsupported operating system" in str(e):
+                print("Allowed operating systems: Ubuntu or CentOS.")
+
             print(e)
             print()
+
+            logger.error(f"Validation error for machine '{name}': {e}")
 
     return machines
 
@@ -86,3 +96,4 @@ def save_to_json(machines):
         json.dump(machines, f, indent=4)
 
     print("Configuration saved to configs/instances.json")
+    logger.info("Configuration saved to configs/instances.json")

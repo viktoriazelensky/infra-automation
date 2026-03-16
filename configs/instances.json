@@ -1,20 +1,8 @@
 [
     {
-        "name": "server1",
+        "name": "bob",
         "os": "Ubuntu",
-        "cpu": 2,
-        "ram": 4096
-    },
-    {
-        "name": "server2",
-        "os": "CentOS",
-        "cpu": 4,
-        "ram": 2048
-    },
-    {
-        "name": "server3",
-        "os": "Fedora",
-        "cpu": 12,
-        "ram": 8192
+        "cpu": 8,
+        "ram": 888
     }
 ]

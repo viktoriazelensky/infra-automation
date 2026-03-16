@@ -1,4 +1,7 @@
 from src.input_handler import get_user_input, save_to_json
+from src.logger import logger
+
+logger.info("Application started")
 
 
 def main():
@@ -19,3 +22,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    logger.info("Provisioning process finished")

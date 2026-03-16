@@ -1,3 +1,6 @@
+from src.logger import logger
+
+
 class Machine:
     """
     Represents a virtual machine configuration in the infrastructure simulator.
@@ -32,4 +35,6 @@ class Machine:
         Log or display a message indicating that the machine
         provisioning process has started.
         """
-        print(f"Provisioning {self.name}: {self.os}, {self.cpu} CPU, {self.ram}MB RAM")
+        message = f"Provisioning {self.name}: {self.os}, {self.cpu} CPU, {self.ram}MB RAM"
+        print(message)
+        logger.info(message)     
