@@ -1,3 +1,5 @@
+"""Machine provisioning logic and execution module."""
+
 import os
 import subprocess
 
@@ -61,4 +63,4 @@ class Machine:
 
         except subprocess.CalledProcessError as e:
             print(f"Provisioning failed: {e}")
-            logger.error(f"Provisioning failed: {e}")
+            logger.error("Provisioning failed: %s", e)

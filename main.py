@@ -1,3 +1,6 @@
+"""Entry point for the Infra Automation Tool."""
+
+
 from src.input_handler import get_user_input, save_to_json
 from src.logger import logger
 
@@ -5,6 +8,7 @@ logger.info("Application started")
 
 
 def main():
+    """Run the main application workflow."""
     print("=== Infra Automation Tool ===")
 
     machines = get_user_input()

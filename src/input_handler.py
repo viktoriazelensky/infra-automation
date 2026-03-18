@@ -1,3 +1,5 @@
+"""User input handling and JSON saving for machine configurations."""
+
 import json
 import os
 
@@ -66,9 +68,8 @@ def get_user_input():
             machine.provision()
             machines.append(machine.to_dict())
 
-            print(f"Machine '{machine.name}' added successfully.\n")
+            logger.info("Machine '%s' added successfully", machine.name)
             print()
-            logger.info(f"Machine '{machine.name}' added successfully")
 
         except ValidationError as e:
             print("Invalid input. Please check your values and try again.")
@@ -79,7 +80,7 @@ def get_user_input():
             print(e)
             print()
 
-            logger.error(f"Validation error for machine '{name}': {e}")
+            logger.error("Validation error for machine '%s': %s", name, e)
 
     return machines
 

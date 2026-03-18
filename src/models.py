@@ -1,14 +1,15 @@
+"""Pydantic models for validating machine configuration data."""
+
 from typing import ClassVar
 from pydantic import BaseModel, Field, StrictInt, field_validator
 
 
 class MachineConfig(BaseModel):
-    # Allowed operating systems supported by this project.
-    # Restricting the list helps prevent arbitrary or invalid user input.
+    """Validation model for a single machine configuration."""
     ALLOWED_OS: ClassVar[list[str]] = [
-    "Ubuntu",
-    "CentOS",
-     ]
+        "Ubuntu",
+        "CentOS",
+    ]
 
     name: str
     os: str
@@ -21,12 +22,11 @@ class MachineConfig(BaseModel):
         "extra": "forbid"
     }
 
-    # Validate machine name:
-    # removes leading/trailing spaces, checks that the name is not empty,
-    # and ensures the machine name is not longer than 63 characters
+
     @field_validator("name")
     @classmethod
     def validate_name(cls, value: str) -> str:
+        """Validate and normalize the machine name."""
         cleaned_value = value.strip()
 
         if not cleaned_value:
@@ -37,12 +37,11 @@ class MachineConfig(BaseModel):
 
         return cleaned_value
 
-    # Validate operating system:
-    # normalizes user input and checks if the OS is in the supported list
     @field_validator("os")
     @classmethod
     def validate_os(cls, value: str) -> str:
-        normalized_value = value.strip().lower()
+        """Validate and normalize the operating system value."""
+        normalized_value = "".join(value.split()).lower()
 
         for os_name in cls.ALLOWED_OS:
             if normalized_value == os_name.lower():
