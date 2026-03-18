@@ -156,3 +156,4 @@ RAM must be within allowed limits
 
 
 **Author:**
+**Viktoria Zel**
